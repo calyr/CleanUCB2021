@@ -34,6 +34,9 @@ android {
 
 dependencies {
     implementation project(":domain")
+    implementation project(":usecases")
+    implementation project(":data")
+    implementation project(":framework")
     implementation androidLibs.values()
     implementation kotlinLibs.values()
     implementation libs.values()
