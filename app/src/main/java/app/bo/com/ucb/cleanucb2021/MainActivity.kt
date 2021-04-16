@@ -11,15 +11,16 @@ import app.bo.com.ucb.framework.MovieDataSource
 import app.bo.com.ucb.framework.RetrofitBuilder
 import app.bo.com.ucb.usecases.GetPopularMovies
 import okhttp3.Cache.Companion.key
+import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by currentScope.viewModel(this)
     lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = MainViewModel(GetPopularMovies(MoviesRepository( MovieDataSource(RetrofitBuilder), getString(R.string.key) )))
         recyclerView = findViewById(R.id.recyclerView)
 
         val layoutManager = GridLayoutManager(this, 3)
