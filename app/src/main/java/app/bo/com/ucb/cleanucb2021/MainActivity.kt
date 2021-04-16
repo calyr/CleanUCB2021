@@ -13,9 +13,12 @@ import app.bo.com.ucb.domain.Movie
 import app.bo.com.ucb.framework.MovieDataSource
 import app.bo.com.ucb.framework.RetrofitBuilder
 import app.bo.com.ucb.usecases.GetPopularMovies
+import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    lateinit var mainViewModel: MainViewModel
+    //lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by currentScope.viewModel(this)
     lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,24 +27,20 @@ class MainActivity : AppCompatActivity() {
 
         val layoutManager = GridLayoutManager(this, 3 )
         layoutManager.orientation = RecyclerView.VERTICAL
-
         recyclerView.layoutManager = layoutManager
-
-        mainViewModel = MainViewModel(GetPopularMovies(MoviesRepository( MovieDataSource(RetrofitBuilder), getString(R.string.key) )))
-
+        //mainViewModel = MainViewModel(GetPopularMovies(MoviesRepository( MovieDataSource(RetrofitBuilder), getString(R.string.key) )))
         mainViewModel.model.observe( this, Observer(::updateUi))
-
         mainViewModel.loadMovies()
+
+
     }
 
     private fun updateUi(uiModel: MainViewModel.UiModel) {
-
         when ( uiModel) {
             is MainViewModel.UiModel.Content -> {
                 loadData(  uiModel.movies )
             }
         }
-
     }
 
     private fun loadData(movies: List<Movie>) {
