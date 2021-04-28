@@ -1,3 +1,4 @@
+include ':testShared'
 include ':framework'
 include ':usecases'
 include ':domain'
